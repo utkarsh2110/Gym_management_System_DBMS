@@ -1,0 +1,94 @@
+CREATE TABLE Instructor 
+( 
+  inst_id INT NOT NULL, 
+  inst_name varchar (10) NOT NULL, 
+  login_id INT NOT NULL, 
+  PRIMARY KEY (inst_id) 
+); 
+ALTER TABLE Instructor 
+ADD FOREIGN KEY (login_id) REFERENCES Authority(login_ID);  
+ 
+ 
+CREATE TABLE Session_timming 
+
+  session_id INT NOT NULL, 
+  on_time INT NOT NULL, 
+  End_time INT NOT NULL, 
+  inst_id INT NOT NULL, 
+  PRIMARY KEY (session_id), 
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id) 
+); 
+
+CREATE TABLE Physique 
+( 
+  height INT NOT NULL, 
+  mass INT NOT NULL, 
+  age INT NOT NULL, 
+  joiners_id INT NOT NULL, 
+  FOREIGN KEY (joiners_id) REFERENCES Joiners(joiners_id) 
+); 
+
+CREATE TABLE Authority 
+( 
+  login_id INT NOT NULL, 
+  password INT NOT NULL, 
+  on__time INT NOT NULL, 
+  End_time INT NOT NULL, 
+  fee_reciept_no INT NOT NULL, 
+  PRIMARY KEY (login_id), 
+  FOREIGN KEY (fee_reciept_no) REFERENCES Fees(fee_reciept_no)  
+); 
+ 
+CREATE TABLE Joiners 
+( 
+  joiners_name varchar(10) NOT NULL, 
+  joiners_id INT NOT NULL, 
+  session_id INT NOT NULL, 
+  physique INT NOT NULL, 
+  PRIMARY KEY (joiners_id), 
+  FOREIGN KEY (session_id) REFERENCES Session_timming(session_id) 
+); 
+ 
+CREATE TABLE Fees 
+( 
+  fee_reciept_no INT NOT NULL, 
+  Real_time_record INT NOT NULL, 
+  joiners_id INT NOT NULL, 
+  PRIMARY KEY (fee_reciept_no), 
+  FOREIGN KEY (joiners_id) REFERENCES Joiners(joiners_id) 
+); 
+
+CREATE TABLE Instructor_area_of_expertise 
+( 
+  area_of_expertise VARCHAR (30) NOT NULL, 
+  inst_id INT NOT NULL, 
+  PRIMARY KEY (area_of_expertise, inst_id), 
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id) 
+); 
+
+CREATE TABLE Instructor_phn_no 
+( 
+  phn_no INT NOT NULL, 
+  inst_id INT NOT NULL, 
+  PRIMARY KEY (phn_no, inst_id), 
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id) 
+);
+CREATE TABLE Maintenance
+(
+  last_date_of_maintenance DATE NOT NULL,
+  next_date_of_maintenance DATE NOT NULL,
+  No_of_times_maintained INT NOT NULL,
+  Maintance_id INT NOT NULL,
+  PRIMARY KEY (Maintance_id)
+);
+ 
+CREATE TABLE Equipments
+(
+  Equip_name VARCHAR(20) NOT NULL,
+  Equip_type VARCHAR (20) NOT NULL,
+  Equip_id INT NOT NULL,
+  login_id INT NOT NULL,
+  Maintance_id INT NOT NULL,
+  FOREIGN KEY (login_id) REFERENCES Authority(login_id),
+  FOREIGN KEY (Maintance_id) REFERENCES Maintenance(Maintance_id)
+);
